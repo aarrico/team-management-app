@@ -1,0 +1,26 @@
+.member-row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .member-info {
+    flex: 1;
+  }
+  
+  .member-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .member-detail {
+    margin-bottom: 2px;
+  }
