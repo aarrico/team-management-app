@@ -6,7 +6,7 @@ from .models import TeamMember
 
 
 class TeamMembersListCreate(ListCreateAPIView):
-    queryset = TeamMember.objects.all()
+    queryset = TeamMember.objects.all().exclude(deleted_at__isnull=False)
     serializer_class = TeamMemberSerializer
 
 
