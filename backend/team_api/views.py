@@ -12,5 +12,5 @@ def get_role_name(role):
 class TeamMemberListCreate(ListCreateAPIView):
     model = TeamMember
     queryset = TeamMember.objects.values(
-        'id', 'first_name', 'last_name', 'email', 'phone').annotate(count=Count('id'))
+        'id', 'first_name', 'last_name', 'email', 'phone', 'role')
     serializer_class = TeamMemberSerializer
