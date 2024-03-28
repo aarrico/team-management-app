@@ -19,9 +19,9 @@ class TeamMember(models.Model):
     phone = models.CharField(max_length=15)
     role = models.IntegerField(
         choices=ROLE_CHOICES, default=Roles.REGULAR)
-    addedAt = models.DateTimeField(auto_now_add=True)
-    updatedAt = models.DateTimeField(auto_now=True)
-    deletedAt = models.DateTimeField(blank=True, null=True)
+    added_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.first_name} + {self.last_name}' 
