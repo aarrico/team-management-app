@@ -21,7 +21,7 @@ class TeamMember(models.Model):
         choices=ROLE_CHOICES, default=Roles.REGULAR)
     addedAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
-    deletedAt = models.DateTimeField(blank=True)
+    deletedAt = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.first_name} + {self.last_name}' 
