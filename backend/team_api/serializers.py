@@ -11,4 +11,4 @@ class TeamMemberSerializer(ModelSerializer):
                   'email', 'phone', 'role_name']
 
     def get_role_name(self, obj):
-        return Roles(obj['role']).name
+        return Roles(obj.role).name

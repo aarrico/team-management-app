@@ -1,6 +1,7 @@
 from django.urls import path
-from team_api.views import TeamMemberListCreate
+from team_api.views import TeamMembersListCreate, TeamMemberGetUpdateDelete
 
 urlpatterns = [
-    path('team/', TeamMemberListCreate.as_view()),
+    path('team/', TeamMembersListCreate.as_view()),
+    path('team/<str:pk>', TeamMemberGetUpdateDelete.as_view())
 ]

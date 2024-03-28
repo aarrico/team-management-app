@@ -1,16 +1,19 @@
-from rest_framework.generics import ListCreateAPIView
-from django.db.models import Count
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from django.utils import timezone
 
 from .serializers import TeamMemberSerializer
 from .models import TeamMember
 
 
-def get_role_name(role):
-    return role[0].lower()
-
-
-class TeamMemberListCreate(ListCreateAPIView):
-    model = TeamMember
-    queryset = TeamMember.objects.values(
-        'id', 'first_name', 'last_name', 'email', 'phone', 'role')
+class TeamMembersListCreate(ListCreateAPIView):
+    queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
+
+
+class TeamMemberGetUpdateDelete(RetrieveUpdateDestroyAPIView):
+    queryset = TeamMember.objects.all()
+    serializer_class = TeamMemberSerializer
+
+    def perform_destroy(self, instance):
+        instance.deleted_at = timezone.now()
+        instance.save()
