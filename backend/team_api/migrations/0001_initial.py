@@ -15,12 +15,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TeamMember',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('first_name', models.CharField(max_length=50)),
                 ('last_name', models.CharField(max_length=50)),
                 ('email', models.EmailField(max_length=254)),
                 ('phone', models.CharField(max_length=15)),
-                ('role', models.IntegerField(choices=[(0, 'ADMIN'), (1, 'REGULAR')], default=team_api.models.Roles['REGULAR'])),
+                ('role', models.IntegerField(choices=[
+                 (0, 'ADMIN'), (1, 'REGULAR')], default='REGULAR')),
                 ('addedAt', models.DateTimeField(auto_now_add=True)),
                 ('updatedAt', models.DateTimeField(auto_now=True)),
                 ('deletedAt', models.DateTimeField(blank=True)),

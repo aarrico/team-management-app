@@ -2,13 +2,12 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from django.utils import timezone
 
 from .serializers import TeamMemberSerializer
-from .models import TeamMember
+from .models import TeamMember, ROLE_CHOICES
 
 
 class TeamMembersListCreate(ListCreateAPIView):
     queryset = TeamMember.objects.all().exclude(deleted_at__isnull=False)
     serializer_class = TeamMemberSerializer
-
 
 class TeamMemberGetUpdateDelete(RetrieveUpdateDestroyAPIView):
     queryset = TeamMember.objects.all()

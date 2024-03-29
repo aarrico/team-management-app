@@ -1,9 +1,5 @@
 export default function TeamMemberRow({
-  first_name,
-  last_name,
-  email,
-  phone,
-  role_name,
+  member: { first_name, last_name, email, phone, role_name },
 }) {
   const displayName = `${first_name} ${last_name}${
     role_name === "ADMIN" ? " (admin)" : ""
@@ -12,6 +8,7 @@ export default function TeamMemberRow({
   return (
     <>
       <div className="memeber-row">
+        <img src="../../public/blankAvatar.png" alt="Profile Picture" className="profile-pictue"/>
         <div className="member-info">
           <p className="member-name">{displayName}</p>
           <p className="member-detail">{phone}</p>

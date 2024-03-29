@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import TeamMemberRow from "./TeamMemberRow";
 
-const TeamMemberList = () => {
+function TeamMemberList() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
@@ -19,19 +19,20 @@ const TeamMemberList = () => {
     <>
       <div>
         <h1>
-          <b>Team Members</b>
+          <b>Team members</b>
         </h1>
-        <h4>You have {members.length} team members.</h4>
+        <h4>You have {members.length} team {members.length === 1 ? "member" : "members"}.</h4>
         <ul>
-          {members.map((m) => (
-            <li key={m.id}>
+          {members.map((m) => {
+            console.log(m);
+            return (<li key={m.id}>
               <TeamMemberRow member={m} />
-            </li>
-          ))}
+            </li>);
+          })}
         </ul>
       </div>
     </>
   );
-};
+}
 
 export default TeamMemberList;

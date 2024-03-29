@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -8,9 +8,11 @@ export const TEAM_API_URL = "http://localhost:8000/api/team";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <StrictMode>
   <BrowserRouter>
     <Routes>
       <Route index path="/" element={<TeamMemberList />} />
     </Routes>
   </BrowserRouter>
+  </StrictMode>
 );
