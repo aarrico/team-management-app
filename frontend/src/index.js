@@ -1,18 +1,18 @@
-import React, { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { StrictMode } from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import TeamMemberList from "./components/TeamMemberList";
+import TeamListPage from './components/TeamListPage';
+import TeamMemberForm from './components/TeamMemberForm';
 
-export const TEAM_API_URL = "http://localhost:8000/api/team";
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <StrictMode>
-  <BrowserRouter>
-    <Routes>
-      <Route index path="/" element={<TeamMemberList />} />
-    </Routes>
-  </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route index path="/" element={<TeamListPage />} />
+        <Route path="/:id" element={<TeamMemberForm />} />
+      </Routes>
+    </BrowserRouter>
   </StrictMode>
 );
