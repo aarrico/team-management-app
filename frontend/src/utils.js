@@ -24,14 +24,4 @@ function formatPhoneNumber(number) {
   return undefined;
 }
 
-function formatPhoneNumberWithCountryCode(number) {
-  return formatPhoneNumber(number.slice(2));
-}
-
-export {
-  isPhoneNumberValid,
-  formatPhoneNumber,
-  formatPhoneNumberWithCountryCode,
-  isEmailValid,
-  TEAM_API_URL,
-};
+export { isPhoneNumberValid, formatPhoneNumber, isEmailValid, TEAM_API_URL };
