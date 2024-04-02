@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Container,
+  Box,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -12,7 +12,7 @@ import {
 
 function TeamMemberRoleSelection({ role, handleChange }) {
   return (
-    <Container sx={{ marginBottom: 4 }}>
+    <Box sx={{ marginBottom: 4 }}>
       <Typography variant="h5" marginBottom={1}>
         Role
       </Typography>
@@ -44,7 +44,7 @@ function TeamMemberRoleSelection({ role, handleChange }) {
           </RadioGroup>
         </FormControl>
       </FormGroup>
-    </Container>
+    </Box>
   );
 }
 
