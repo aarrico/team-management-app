@@ -12,10 +12,6 @@ import { formatPhoneNumber } from '../../utils';
 
 const apiUrl = process.env.REACT_APP_TEAM_API_URL;
 
-function sendToDevTeam(id) {
-  return `Send this data to dev team: ${id}`;
-}
-
 function TeamMemberForm({ teamMemberId }) {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -36,10 +32,7 @@ function TeamMemberForm({ teamMemberId }) {
           phone: formatPhoneNumber(response.data.phone),
         });
       } catch (err) {
-        toast.error(
-          `Error fetching team member\n${sendToDevTeam(teamMemberId)}`,
-          err
-        );
+        toast.error(`Error fetching team member`, err);
       }
     }
     if (teamMemberId) {
@@ -67,7 +60,7 @@ function TeamMemberForm({ teamMemberId }) {
       }
     } catch (err) {
       toast.error(
-        `Error ${teamMemberId ? 'updating' : 'adding'} team member\n${teamMemberId && sendToDevTeam(teamMemberId)}`,
+        `Error ${teamMemberId ? 'updating' : 'adding'} team member`,
         err
       );
     }
@@ -85,9 +78,7 @@ function TeamMemberForm({ teamMemberId }) {
         `${response.data.firstName} ${response.data.lastName} was deleted.`
       );
     } catch (err) {
-      toast.error(
-        `Error deleting team member\nSend this to dev team: ${teamMemberId}`
-      );
+      toast.error(`Error deleting team member`);
     }
 
     navigate('/');
