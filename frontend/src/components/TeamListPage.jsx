@@ -9,16 +9,21 @@ import {
   Typography,
   Button,
 } from '@mui/material';
+import { toast } from 'react-toastify';
 import TeamMemberCard from './TeamMemberCard';
+import { TEAM_API_URL } from '../utils';
 
 function TeamListPage() {
   const [team, setTeam] = useState([]);
-  const apiUrl = process.env.REACT_APP_TEAM_API_URL;
 
   useEffect(() => {
     async function fetchMembers() {
-      const result = await axios.get(apiUrl);
-      setTeam(result.data);
+      try {
+        const result = await axios.get(TEAM_API_URL);
+        setTeam(result.data);
+      } catch (err) {
+        toast.error('Failed to retrieve team members.');
+      }
     }
     fetchMembers();
   }, []);

@@ -8,9 +8,7 @@ import { toast } from 'react-toastify';
 
 import TeamMemberRoleSelection from './TeamMemberRoleSelection';
 import TeamMemberInfo from './TeamMemberInfo';
-import { formatPhoneNumber } from '../../utils';
-
-const apiUrl = process.env.REACT_APP_TEAM_API_URL;
+import { formatPhoneNumber, TEAM_API_URL } from '../../utils';
 
 function TeamMemberForm({ teamMemberId }) {
   const [formData, setFormData] = useState({
@@ -25,7 +23,7 @@ function TeamMemberForm({ teamMemberId }) {
   useEffect(() => {
     async function fetchEditData() {
       try {
-        const response = await axios.get(`${apiUrl}${teamMemberId}`);
+        const response = await axios.get(`${TEAM_API_URL}${teamMemberId}`);
 
         setFormData({
           ...response.data,
@@ -48,12 +46,15 @@ function TeamMemberForm({ teamMemberId }) {
     e.preventDefault();
     try {
       if (teamMemberId) {
-        const response = await axios.put(`${apiUrl}${teamMemberId}`, formData);
+        const response = await axios.put(
+          `${TEAM_API_URL}${teamMemberId}`,
+          formData
+        );
         toast.success(
           `${response.data.firstName} ${response.data.lastName}'s updated!`
         );
       } else {
-        const response = await axios.post(`${apiUrl}`, formData);
+        const response = await axios.post(`${TEAM_API_URL}`, formData);
         toast.success(
           `Saved ${response.data.firstName} ${response.data.lastName} as a new team member!`
         );
@@ -71,7 +72,7 @@ function TeamMemberForm({ teamMemberId }) {
   async function handleDelete(e) {
     e.preventDefault();
     try {
-      await axios.delete(`${apiUrl}${teamMemberId}`);
+      await axios.delete(`${TEAM_API_URL}${teamMemberId}`);
       toast.success(`Team memeber was removed successfully.`);
     } catch (err) {
       toast.error(`Error deleting team member.`);

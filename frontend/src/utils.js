@@ -3,6 +3,8 @@ const phoneNumberRegexPattern =
 
 const emailRegexPattern = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
+const TEAM_API_URL = 'http://localhost:8000/api/team/';
+
 function isPhoneNumberValid(number) {
   return phoneNumberRegexPattern.test(number);
 }
@@ -31,4 +33,5 @@ export {
   formatPhoneNumber,
   formatPhoneNumberWithCountryCode,
   isEmailValid,
+  TEAM_API_URL,
 };

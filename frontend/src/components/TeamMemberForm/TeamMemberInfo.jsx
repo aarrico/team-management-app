@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 
 import React, { useState } from 'react';
-import { Box, Grid, Typography, TextField } from '@mui/material';
+import { Grid, Typography, TextField } from '@mui/material';
 import {
   isPhoneNumberValid,
   formatPhoneNumber,
@@ -35,7 +35,7 @@ function TeamMemberInfo({
   }
 
   return (
-    <Box>
+    <>
       <Grid item xs={12}>
         <Typography variant="h5" marginBottom={2}>
           Info
@@ -105,7 +105,7 @@ function TeamMemberInfo({
           }
         />
       </Grid>
-    </Box>
+    </>
   );
 }
 
