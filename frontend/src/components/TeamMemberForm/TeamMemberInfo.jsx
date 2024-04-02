@@ -50,7 +50,7 @@ function TeamMemberInfo({
           fullWidth
           autoComplete="off"
           error={!firstName}
-          helperText={!firstName && 'Provide a first name.'}
+          helperText={!firstName && 'Field cannot be blank.'}
         />
       </Grid>
       <Grid item xs={12}>
@@ -64,7 +64,7 @@ function TeamMemberInfo({
           fullWidth
           autoComplete="off"
           error={!lastName}
-          helperText={!lastName && 'Provide a last name.'}
+          helperText={!lastName && 'Field cannot be blank.'}
         />
       </Grid>
       <Grid item xs={12}>
@@ -74,12 +74,14 @@ function TeamMemberInfo({
           value={email}
           onChange={handleEmailChange}
           variant="outlined"
+          placeholder="Email"
           required
           fullWidth
           autoComplete="off"
-          error={emailError}
+          error={emailError || !email}
           helperText={
-            emailError && 'Provide email in the form of user@domain.xyz.'
+            (emailError || !email) &&
+            'Provide email in the form of user@domain.xyz.'
           }
         />
       </Grid>
@@ -90,11 +92,15 @@ function TeamMemberInfo({
           value={phone}
           onChange={handlePhoneChange}
           variant="outlined"
+          placeholder="Phone Number"
           required
           fullWidth
           autoComplete="off"
-          error={phoneNumberError}
-          helperText={phoneNumberError && 'Provide a 10-digit US based number.'}
+          error={phoneNumberError || !phone}
+          helperText={
+            (phoneNumberError || !phone) &&
+            'Provide a 10-digit US based number.'
+          }
         />
       </Grid>
     </Box>

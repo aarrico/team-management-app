@@ -13,11 +13,11 @@ import TeamMemberCard from './TeamMemberCard';
 
 function TeamListPage() {
   const [team, setTeam] = useState([]);
-  const TEAM_API_URL = process.env.REACT_APP_TEAM_API_URL;
+  const apiUrl = process.env.REACT_APP_TEAM_API_URL;
 
   useEffect(() => {
     async function fetchMembers() {
-      const result = await axios.get(TEAM_API_URL);
+      const result = await axios.get(apiUrl);
       setTeam(result.data);
     }
     fetchMembers();
@@ -25,7 +25,7 @@ function TeamListPage() {
 
   return (
     <Container>
-      <Box sx={{ position: 'fixed', top: 5, right: 5, zIndex: 2000 }}>
+      <Box sx={{ textAlign: 'right' }}>
         <Button
           component={Link}
           to="/add"
