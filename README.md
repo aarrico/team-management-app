@@ -75,3 +75,4 @@ source run.sh --test
 - I added the profile pic src field to the database, but since there is no way to set it from the frontend in the project requirements, it is not passed back in the frontend's post request. Since I was using the MUI Avatar component, if it is passed an invalid path, it defaults to the icon specified in the requirements.
 - I would normally use Docker Compose to run the application locally, but in the interest of time and complexity the `run.sh` script was easier to throw together.
 - Since there is only one user, permissions on the backend were not implemented.
+- I only built in support for US based phone numbers. In a production app, I'd use a package to handle phone validation and save them in database stripped of unecessary characters with the country code prepended.
