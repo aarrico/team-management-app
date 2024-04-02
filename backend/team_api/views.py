@@ -2,7 +2,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from django.utils import timezone
 
 from .serializers import TeamMemberSerializer
-from .models import TeamMember, ROLE_CHOICES
+from .models import TeamMember
 
 
 class TeamMembersListCreate(ListCreateAPIView):
