@@ -71,14 +71,10 @@ function TeamMemberForm({ teamMemberId }) {
   async function handleDelete(e) {
     e.preventDefault();
     try {
-      const response = await axios.patch(`${apiUrl}${teamMemberId}`, {
-        deletedAt: new Date().toJSON(),
-      });
-      toast.success(
-        `${response.data.firstName} ${response.data.lastName} was deleted.`
-      );
+      await axios.delete(`${apiUrl}${teamMemberId}`);
+      toast.success(`Team memeber was removed successfully.`);
     } catch (err) {
-      toast.error(`Error deleting team member`);
+      toast.error(`Error deleting team member.`);
     }
 
     navigate('/');
