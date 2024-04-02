@@ -16,12 +16,18 @@ if [ "$1" != "--stop" ]; then
     (
         cd backend
         if [ ! -d "venv" ]; then
-            echo "No virtual environment detected..creating one..."
+            echo "No virtual environment detected. Creating one..."
             python3 -m venv venv
         fi
         source venv/bin/activate
         echo "Installing requirements to venv..."
         pip install -r requirements.txt
+
+        if [ ! -f db.sqlite3 ]; then
+            echo "No sqlite db detected. Running migrate..."
+            python manage.py migrate
+        fi
+
         echo "Starting server..."
         nohup python manage.py runserver --noreload &
         be_pid=$!
