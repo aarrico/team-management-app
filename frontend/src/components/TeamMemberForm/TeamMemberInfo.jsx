@@ -37,7 +37,9 @@ function TeamMemberInfo({
   return (
     <Box>
       <Grid item xs={12}>
-        <Typography variant="h5">Info</Typography>
+        <Typography variant="h5" marginBottom={2}>
+          Info
+        </Typography>
       </Grid>
       <Grid item xs={12}>
         <TextField
