@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Box, Container, Grid, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
+import {
+  Box,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+  Button,
+} from '@mui/material';
 import TeamMemberCard from './TeamMemberCard';
 
 function TeamListPage() {
@@ -39,10 +45,12 @@ function TeamListPage() {
           You have {team.length} team member{team.length === 1 ? '' : 's'}.
         </Typography>
       </Box>
+      <Divider />
       <Grid container spacing={5} justify="center">
         {team.map((member) => (
           <Grid item xs={12} key={member.id}>
             <TeamMemberCard member={member} />
+            <Divider />
           </Grid>
         ))}
       </Grid>

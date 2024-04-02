@@ -16,6 +16,7 @@ function TeamMemberCard({
 
   return (
     <Card
+      variant="plain"
       component={Link}
       to={`/${id}`}
       style={{ textDecoration: 'none' }}
