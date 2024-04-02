@@ -30,7 +30,15 @@ function TeamMemberForm({ teamMemberId }) {
           phone: formatPhoneNumber(response.data.phone),
         });
       } catch (err) {
-        toast.error(`Error fetching team member`, err);
+        if (err.response.status === 404) {
+          toast.error(`Team member with given ID does not exist!`);
+        } else if (err.response.status === 500) {
+          toast.error('There was a problem connecting to the server.');
+        } else {
+          toast.error(`Error fetching team member: ${err}`);
+        }
+
+        navigate('/');
       }
     }
     if (teamMemberId) {
@@ -51,7 +59,7 @@ function TeamMemberForm({ teamMemberId }) {
           formData
         );
         toast.success(
-          `${response.data.firstName} ${response.data.lastName}'s updated!`
+          `${response.data.firstName} ${response.data.lastName}'s info updated!`
         );
       } else {
         const response = await axios.post(`${TEAM_API_URL}`, formData);
@@ -60,10 +68,13 @@ function TeamMemberForm({ teamMemberId }) {
         );
       }
     } catch (err) {
-      toast.error(
-        `Error ${teamMemberId ? 'updating' : 'adding'} team member`,
-        err
-      );
+      if (err.response.status === 500) {
+        toast.error('There was a problem connecting to the server.');
+      } else {
+        toast.error(
+          `Error ${teamMemberId ? 'updating' : 'adding'} team member: ${err}`
+        );
+      }
     }
 
     navigate('/');
@@ -75,7 +86,14 @@ function TeamMemberForm({ teamMemberId }) {
       await axios.delete(`${TEAM_API_URL}${teamMemberId}`);
       toast.success(`Team memeber was removed successfully.`);
     } catch (err) {
-      toast.error(`Error deleting team member.`);
+      if (err.response.status === 404) {
+        toast.error(`Team member with given ID does not exist!`);
+      } else if (err.response.status === 500) {
+        toast.error('There was a problem connecting to the server.');
+      } else {
+        toast.error(`Error deleting
+         team member: ${err}`);
+      }
     }
 
     navigate('/');
