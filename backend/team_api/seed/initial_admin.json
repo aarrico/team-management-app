@@ -1,0 +1,13 @@
+[
+  {
+    "model": "team_api.TeamMember",
+    "pk": "8b4a617f-8646-474c-b0f0-f96236ec4871",
+    "fields": {
+      "first_name": "Samuel",
+      "last_name": "Oak",
+      "phone": "+13107409998",
+      "email": "profoak@pkmn.com",
+      "role": "admin"
+    }
+  }
+]

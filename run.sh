@@ -43,6 +43,7 @@ elif [ "$1" != "--stop" ]; then
         if [ ! -f db.sqlite3 ]; then
             echo "No sqlite db detected. Running migrate..."
             python manage.py migrate
+            python manage.py loaddata team_api/seed/initial_admin.json
         fi
 
         echo "Starting server..."
