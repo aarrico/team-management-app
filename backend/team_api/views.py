@@ -16,3 +16,7 @@ class TeamMemberGetUpdateDelete(RetrieveUpdateDestroyAPIView):
     def perform_destroy(self, instance):
         instance.deleted_at = timezone.now()
         instance.save()
+        
+    def perform_update(self, serializer):
+        serializer.save(updated_at=timezone.now())
+        return super().perform_update(serializer)

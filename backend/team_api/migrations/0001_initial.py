@@ -31,4 +31,8 @@ class Migration(migrations.Migration):
                 'ordering': ['role', 'first_name'],
             },
         ),
+        migrations.AlterModelTable(
+            name='teammember',
+            table='team_member',
+        ),
     ]
