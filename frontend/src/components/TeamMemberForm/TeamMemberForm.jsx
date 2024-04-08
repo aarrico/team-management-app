@@ -61,7 +61,6 @@ function TeamMemberForm({ teamMemberId }) {
   }, [teamMemberId]);
 
   async function onSubmit(data) {
-    console.log(data);
     try {
       if (teamMemberId) {
         const response = await axios.put(
