@@ -1,39 +1,13 @@
-/* eslint-disable react/jsx-no-bind */
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Typography, TextField } from '@mui/material';
-import {
-  isPhoneNumberValid,
-  formatPhoneNumber,
-  isEmailValid,
-} from '../../utils';
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
+import { Controller } from 'react-hook-form';
+import { isEmailValid } from '../../utils';
 
 function TeamMemberInfo({
+  control,
   formData: { firstName, lastName, email, phone },
-  handleChange,
 }) {
-  const [emailError, setEmailError] = useState(false);
-  const [phoneNumberError, setPhoneNumberError] = useState(false);
-
-  function handleEmailChange(e) {
-    if (!isEmailValid(e.target.value)) {
-      setEmailError(true);
-    } else {
-      setEmailError(false);
-    }
-    handleChange(e);
-  }
-
-  function handlePhoneChange(e) {
-    if (!isPhoneNumberValid(e.target.value)) {
-      setPhoneNumberError(true);
-    } else {
-      setPhoneNumberError(false);
-      e.target.value = formatPhoneNumber(e.target.value);
-    }
-    handleChange(e);
-  }
-
   return (
     <>
       <Grid item xs={12}>
@@ -42,67 +16,110 @@ function TeamMemberInfo({
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <TextField
+        <Controller
           name="firstName"
-          placeholder="First Name"
-          value={firstName}
-          onChange={handleChange}
-          variant="outlined"
-          required
-          fullWidth
-          autoComplete="off"
-          error={!firstName}
-          helperText={!firstName && 'Field cannot be blank.'}
+          defaultValue={firstName || ''}
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { ref: fieldRef, value, ...fieldProps },
+            fieldState,
+          }) => (
+            <TextField
+              {...fieldProps}
+              value={value ?? ''}
+              inputRef={fieldRef}
+              helperText={fieldState.invalid ? 'First name is required' : ''}
+              error={fieldState.invalid}
+              placeholder="First Name"
+              variant="outlined"
+              fullWidth
+              autoComplete="off"
+            />
+          )}
         />
       </Grid>
       <Grid item xs={12}>
-        <TextField
+        <Controller
           name="lastName"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={handleChange}
-          variant="outlined"
-          required
-          fullWidth
-          autoComplete="off"
-          error={!lastName}
-          helperText={!lastName && 'Field cannot be blank.'}
+          defaultValue={lastName || ''}
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { ref: fieldRef, value, ...fieldProps },
+            fieldState,
+          }) => (
+            <TextField
+              {...fieldProps}
+              value={value ?? ''}
+              inputRef={fieldRef}
+              helperText={fieldState.invalid ? 'Last name is required' : ''}
+              error={fieldState.invalid}
+              placeholder="Last Name"
+              variant="outlined"
+              fullWidth
+              autoComplete="off"
+            />
+          )}
         />
       </Grid>
       <Grid item xs={12}>
-        <TextField
-          type="email"
+        <Controller
           name="email"
-          value={email}
-          onChange={handleEmailChange}
-          variant="outlined"
-          placeholder="Email"
-          required
-          fullWidth
-          autoComplete="off"
-          error={emailError || !email}
-          helperText={
-            (emailError || !email) &&
-            'Provide email in the form of user@domain.xyz.'
-          }
+          defaultValue={email || ''}
+          control={control}
+          rules={{
+            required: true,
+            validate: (value) => isEmailValid(value),
+          }}
+          render={({
+            field: { ref: fieldRef, value, ...fieldProps },
+            fieldState,
+          }) => (
+            <TextField
+              {...fieldProps}
+              value={value ?? ''}
+              inputRef={fieldRef}
+              helperText={
+                fieldState.invalid
+                  ? 'Email is should be in the form user@domain.com'
+                  : ''
+              }
+              error={fieldState.invalid}
+              variant="outlined"
+              placeholder="member@team.com"
+              fullWidth
+              autoComplete="off"
+            />
+          )}
         />
       </Grid>
       <Grid item xs={12}>
-        <TextField
-          type="tel"
+        <Controller
           name="phone"
-          value={phone}
-          onChange={handlePhoneChange}
-          variant="outlined"
-          placeholder="Phone Number"
-          required
-          fullWidth
-          autoComplete="off"
-          error={phoneNumberError || !phone}
-          helperText={
-            (phoneNumberError || !phone) &&
-            'Provide a 10-digit US based number.'
-          }
+          defaultValue={phone || ''}
+          control={control}
+          rules={{
+            required: true,
+            validate: (value) => matchIsValidTel(value),
+          }}
+          render={({
+            field: { ref: fieldRef, value, ...fieldProps },
+            fieldState,
+          }) => (
+            <MuiTelInput
+              {...fieldProps}
+              value={value ?? ''}
+              inputRef={fieldRef}
+              helperText={fieldState.invalid ? 'Phone is invalid' : ''}
+              error={fieldState.invalid}
+              forceCallingCode
+              defaultCountry="US"
+              variant="outlined"
+              fullWidth
+              autoComplete="off"
+            />
+          )}
         />
       </Grid>
     </>

@@ -1,41 +1,55 @@
-/* eslint-disable react/jsx-no-bind */
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Grid, Button } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import TeamMemberRoleSelection from './TeamMemberRoleSelection';
 import TeamMemberInfo from './TeamMemberInfo';
-import { formatPhoneNumber, TEAM_API_URL } from '../../utils';
+import { TEAM_API_URL } from '../../utils';
+
+const emptyTeamMember = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  role: 'REGULAR',
+};
 
 function TeamMemberForm({ teamMemberId }) {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    role: 'REGULAR',
+  const [formData, setFormData] = useState({ ...emptyTeamMember });
+
+  const { control, reset, handleSubmit } = useForm({
+    defaultValues: formData,
   });
   const navigate = useNavigate();
+
+  function updateForm(data) {
+    setFormData(data);
+    reset(data);
+  }
+
+  function clearForm() {
+    const cleared = { ...emptyTeamMember };
+    setFormData(cleared);
+    reset(cleared);
+  }
 
   useEffect(() => {
     async function fetchEditData() {
       try {
         const response = await axios.get(`${TEAM_API_URL}${teamMemberId}`);
-
-        setFormData({
-          ...response.data,
-          phone: formatPhoneNumber(response.data.phone),
-        });
+        updateForm({ ...response.data });
       } catch (err) {
-        if (err.response.status === 404) {
-          toast.error(`Team member with given ID does not exist!`);
-        } else if (err.response.status === 500) {
-          toast.error('There was a problem connecting to the server.');
-        } else {
-          toast.error(`Error fetching team member: ${err}`);
+        if (err.response && err.response.status) {
+          if (err.response.status === 404) {
+            toast.error(`Team member with given ID does not exist!`);
+          } else if (err.response.status === 500) {
+            toast.error('There was a problem connecting to the server.');
+          } else {
+            toast.error(`Error fetching team member: ${err}`);
+          }
         }
 
         navigate('/');
@@ -46,23 +60,19 @@ function TeamMemberForm({ teamMemberId }) {
     }
   }, [teamMemberId]);
 
-  function handleChange(e) {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function onSubmit(data) {
+    console.log(data);
     try {
       if (teamMemberId) {
         const response = await axios.put(
           `${TEAM_API_URL}${teamMemberId}`,
-          formData
+          data
         );
         toast.success(
           `${response.data.firstName} ${response.data.lastName}'s info updated!`
         );
       } else {
-        const response = await axios.post(`${TEAM_API_URL}`, formData);
+        const response = await axios.post(`${TEAM_API_URL}`, data);
         toast.success(
           `Saved ${response.data.firstName} ${response.data.lastName} as a new team member!`
         );
@@ -77,11 +87,11 @@ function TeamMemberForm({ teamMemberId }) {
       }
     }
 
+    clearForm();
     navigate('/');
   }
 
-  async function handleDelete(e) {
-    e.preventDefault();
+  async function onDelete() {
     try {
       await axios.delete(`${TEAM_API_URL}${teamMemberId}`);
       toast.success(`Team memeber was removed successfully.`);
@@ -96,19 +106,17 @@ function TeamMemberForm({ teamMemberId }) {
       }
     }
 
+    clearForm();
     navigate('/');
   }
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container rowSpacing={2} marginBottom={3} marginTop={2}>
-        <TeamMemberInfo formData={formData} handleChange={handleChange} />
+        <TeamMemberInfo control={control} formData={formData} />
 
         <Grid item xs={12}>
-          <TeamMemberRoleSelection
-            role={formData.role}
-            handleChange={handleChange}
-          />
+          <TeamMemberRoleSelection control={control} role={formData.role} />
         </Grid>
 
         <Grid item xs={6}>
@@ -116,7 +124,7 @@ function TeamMemberForm({ teamMemberId }) {
             <Button
               variant="outlined"
               name="delete"
-              onClick={handleDelete}
+              onClick={onDelete}
               sx={{ color: 'red', borderColor: '#dcdcdc' }}
             >
               Delete
