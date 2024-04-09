@@ -20,5 +20,3 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.SCHEMA_URL, document_root=settings.SCHEMA_ROOT)
-
-print(urlpatterns)
