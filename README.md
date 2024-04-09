@@ -68,6 +68,11 @@ In a terminal from the project's root directory run:
 source run.sh --test
 ```
 
+## Viewing API Documentation
+
+While the backend is running, navigate to `http://localhost:8000/api/docs/` in your browser to view swagger docs for the API.
+
+
 ## Notes & Design Considerations
 - I spent about 8-9 hours on this in total. I admittedly had some ramp up time while working with the backend since it had been some time since I used Django. I wanted to be sure I was still folllowing best practices.
 - I did not test the Windows instructions given above as I'm working on macOS, but wanted to add them for completeness to this document.

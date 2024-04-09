@@ -1,0 +1,215 @@
+openapi: 3.0.3
+info:
+  title: Team Management API
+  version: 1.0.0
+  description: View, add, edit, delete team members.
+paths:
+  /api/team/:
+    get:
+      operationId: root_list
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamMember'
+          description: 'returns all team members whose deletedAt field is empty'
+    post:
+      operationId: root_create
+      description: 'creates a new team member'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: 'successfully created team member'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldError'
+          description: 'bad request body'
+  /api/team/{id}:
+    get:
+      operationId: root_retrieve
+      description: 'returns a single team member'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: 'successully returned single team member details'
+        '404':
+          description: 'Cannot find team member'
+    put:
+      operationId: root_update
+      description: 'update all fields for a single team member'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: 'successfully updated single team member details'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldError'
+          description: 'bad request body'
+        '404':
+          description: 'Cannot find team member'
+    patch:
+      operationId: root_partial_update
+      description: 'update provided fields for a single team member'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamMember'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldError'
+          description: 'bad request body'
+        '404':
+          description: 'Cannot find team member'
+    delete:
+      operationId: root_destroy
+      description: 'soft deletes team member by setting their deletedAt datetime field'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: 'successfully soft deleted team member'
+        '404':
+          description: 'Cannot find team member'
+components:
+  schemas:
+    PatchedTeamMember:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          maxLength: 15
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        profile_pic_src:
+          type: string
+          nullable: true
+          maxLength: 200
+    RoleEnum:
+      enum:
+        - regular
+        - admin
+      type: string
+      description: |-
+        * `regular` - Regular - cannot delete members
+        * `admin` - Admin - can delete members
+    TeamMember:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          maxLength: 15
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        profile_pic_src:
+          type: string
+          nullable: true
+          maxLength: 200
+      required:
+        - email
+        - first_name
+        - id
+        - last_name
+        - phone
+    Error:
+      type: string
+      description: 'describes specific issues with the field'
+    FieldError:
+      type: object
+      properties:
+        fieldNameForError:
+          type: array
+          description: "each entry's key will be the field name in question with a list of error strings"
+          items: 
+            $ref: '#/components/schemas/Error'
