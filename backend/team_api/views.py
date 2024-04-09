@@ -22,7 +22,7 @@ class TeamMemberGetUpdateDelete(RetrieveUpdateDestroyAPIView):
 
         instance = self.get_object()
 
-        if instance.role == TeamMember.Role.ADMIN and TeamMember.objects.filter(role=TeamMember.Role.ADMIN).count() == 1:
+        if instance.role == TeamMember.Role.ADMIN and TeamMember.objects.filter(role=TeamMember.Role.ADMIN, deleted_at=None).count() == 1:
             return Response({'error': ['must have at least one admin user']}, status=status.HTTP_400_BAD_REQUEST)
 
         instance.deleted_at = timezone.now()
@@ -30,6 +30,10 @@ class TeamMemberGetUpdateDelete(RetrieveUpdateDestroyAPIView):
 
         return Response({'message': f'{instance.first_name} {instance.last_name} successfully deleted!'})
 
-    def perform_update(self, serializer):
-        serializer.save(updated_at=timezone.now())
-        return super().perform_update(serializer)
+    def update(self, request, *args, **kwargs):
+        if request.data['role'] != TeamMember.Role.ADMIN and TeamMember.objects.filter(role=TeamMember.Role.ADMIN, deleted_at=None).count() <= 1:
+            return Response({'error': ['must have at least one admin user']}, status=status.HTTP_400_BAD_REQUEST)
+        
+        instance = self.get_object()
+        instance.updated_at = timezone.now()
+        return super().update(request, *args, **kwargs)
