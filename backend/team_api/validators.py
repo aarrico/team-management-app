@@ -3,6 +3,8 @@ import phonenumbers
 
 def is_phone_valid(phone_number):
     try:
-        phonenumbers.parse(phone_number, None)
-    except:
-        raise ValidationError('Phone number format is invalid')
+        number = phonenumbers.parse(phone_number, None)
+        if number.country_code != 1:
+            raise ValidationError('Phone must be a valid US number') 
+    except ValidationError as err:
+        raise err
