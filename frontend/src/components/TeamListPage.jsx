@@ -7,8 +7,9 @@ import {
   Divider,
   Grid,
   Typography,
-  Button,
+  IconButton,
 } from '@mui/material';
+import { Add } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import TeamMemberCard from './TeamMemberCard';
 import { TEAM_API_URL } from '../utils';
@@ -31,22 +32,23 @@ function TeamListPage() {
   return (
     <Container>
       <Box sx={{ textAlign: 'right' }}>
-        <Button
+        <IconButton
           component={Link}
           to="/add"
           variant="contained"
           sx={{ backgroundColor: 'transparent' }}
+          aria-label="add new team member"
+          size="large"
+          color="primary"
         >
-          <Typography variant="h5" color="primary">
-            +
-          </Typography>
-        </Button>
+          <Add fontSize="inherit" />
+        </IconButton>
       </Box>
       <Box sx={{ marginTop: 5, marginBottom: 5 }}>
-        <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: 50 }}>
           Team members
         </Typography>
-        <Typography variant="h5">
+        <Typography variant="h2" sx={{ fontSize: 24 }}>
           You have {team.length} team member{team.length === 1 ? '' : 's'}.
         </Typography>
       </Box>
