@@ -1,9 +1,23 @@
+const phoneNumberRegexPattern =
+  /^(\+?1\s?)?(\(?\d{3}\)?[-\s]?)(\d{3})[-\s]?(\d{4})$/;
+
 const emailRegexPattern = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const TEAM_API_URL = 'http://localhost:8000/api/team/';
 
 function isEmailValid(email) {
   return emailRegexPattern.test(email);
+}
+
+function formatPhoneNumber(number) {
+  const stripped = number.replace(/\D/g, '');
+  const match = stripped.match(phoneNumberRegexPattern);
+  if (match) {
+    const [, , areaCode, prefix, line] = match;
+    return `${areaCode}-${prefix}-${line}`;
+  }
+
+  return undefined;
 }
 
 function decodeBackendError(err, toastErr) {
@@ -27,4 +41,4 @@ function decodeBackendError(err, toastErr) {
   toastErr(`Error fetching team member: ${err}`);
 }
 
-export { decodeBackendError, isEmailValid, TEAM_API_URL };
+export { decodeBackendError, formatPhoneNumber, isEmailValid, TEAM_API_URL };

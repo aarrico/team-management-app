@@ -9,12 +9,14 @@ import {
   Avatar,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { formatPhoneNumber } from '../utils';
 
 function TeamMemberCard({
   member: { id, firstName, lastName, email, phone, role, profilePicSrc = '' },
 }) {
   const isAdmin = role.toLowerCase() === 'admin';
   const displayName = `${firstName} ${lastName}${isAdmin ? ' (admin)' : ''}`;
+  const displayPhone = formatPhoneNumber(phone);
   const avatar = profilePicSrc ? (
     <Avatar alt={`${displayName}`} src={profilePicSrc} />
   ) : (
@@ -50,7 +52,7 @@ function TeamMemberCard({
           <Typography variant="h5" component="h3">
             <Box sx={{ fontWeight: 'bold' }}>{displayName}</Box>
           </Typography>
-          <Typography color="textSecondary">{phone}</Typography>
+          <Typography color="textSecondary">{displayPhone}</Typography>
           <Typography color="textSecondary">{email}</Typography>
         </Box>
       </CardContent>
