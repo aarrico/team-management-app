@@ -1,18 +1,29 @@
+/* eslint-disable react/no-children-prop */
 import React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
+import {
+  Box,
+  Card,
+  CardHeader,
+  CardContent,
+  Typography,
+  Avatar,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 
 function TeamMemberCard({
   member: { id, firstName, lastName, email, phone, role, profilePicSrc = '' },
 }) {
-  const displayName = `${firstName} ${lastName}${
-    role.toLowerCase() === 'admin' ? ' (admin)' : ''
-  }`;
+  const isAdmin = role.toLowerCase() === 'admin';
+  const displayName = `${firstName} ${lastName}${isAdmin ? ' (admin)' : ''}`;
+  const avatar = profilePicSrc ? (
+    <Avatar alt={`${displayName}`} src={profilePicSrc} />
+  ) : (
+    <Avatar
+      alt={`${displayName}`}
+      sx={{ bgcolor: isAdmin ? '#9c27b0' : '#294eb2' }}
+      children={`${firstName[0]}${lastName[0]}`}
+    />
+  );
 
   return (
     <Card
@@ -27,9 +38,7 @@ function TeamMemberCard({
         alignItems: 'column',
       }}
     >
-      <CardHeader
-        avatar={<Avatar alt={`${displayName}`} src={profilePicSrc} />}
-      />
+      <CardHeader avatar={avatar} />
       <CardContent
         sx={{
           display: 'flex',
