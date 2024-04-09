@@ -27,10 +27,10 @@ function TeamMemberRoleSelection({ control, role }) {
                 {...field}
                 aria-label="role selection"
                 name="role"
-                defaultValue={role.toUpperCase()}
+                defaultValue={role.toLowerCase()}
               >
                 <FormControlLabel
-                  value="REGULAR"
+                  value="regular"
                   control={<Radio />}
                   label="Regular - Can't delete members"
                   labelPlacement="start"
@@ -39,7 +39,7 @@ function TeamMemberRoleSelection({ control, role }) {
                 <Divider />
 
                 <FormControlLabel
-                  value="ADMIN"
+                  value="admin"
                   control={<Radio />}
                   label="Admin - Can delete members"
                   labelPlacement="start"
