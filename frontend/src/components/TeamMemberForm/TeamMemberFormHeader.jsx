@@ -26,10 +26,12 @@ function TeamMemberFormHeader({ isEdit = false, clearForm }) {
         </IconButton>
       </Box>
       <Box marginBottom={4}>
-        <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold' }}>
           {title}
         </Typography>
-        <Typography variant="h5">{subtitle}</Typography>
+        <Typography variant="h5" component="h2">
+          {subtitle}
+        </Typography>
       </Box>
     </>
   );

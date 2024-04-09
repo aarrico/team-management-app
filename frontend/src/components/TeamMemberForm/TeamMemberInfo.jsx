@@ -1,8 +1,30 @@
 import React from 'react';
-import { Grid, Typography, TextField } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  TextField,
+  InputLabel,
+  FormHelperText,
+} from '@mui/material';
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import { Controller } from 'react-hook-form';
 import { isEmailValid } from '../../utils';
+
+const textFieldStyle = {
+  '& .MuiOutlinedInput-root': {
+    color: '#000',
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#000',
+      borderWidth: '2px',
+    },
+    '& .Mui-focused': {
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#071eed',
+        borderWidth: '2px',
+      },
+    },
+  },
+};
 
 function TeamMemberInfo({
   control,
@@ -25,17 +47,25 @@ function TeamMemberInfo({
             field: { ref: fieldRef, value, ...fieldProps },
             fieldState,
           }) => (
-            <TextField
-              {...fieldProps}
-              value={value ?? ''}
-              inputRef={fieldRef}
-              helperText={fieldState.invalid ? 'First name is required' : ''}
-              error={fieldState.invalid}
-              placeholder="First Name"
-              variant="outlined"
-              fullWidth
-              autoComplete="off"
-            />
+            <>
+              <InputLabel htmlFor="first-name">First Name</InputLabel>
+              <TextField
+                {...fieldProps}
+                id="first-name"
+                aria-describedby="first-name-helper-text"
+                value={value ?? ''}
+                inputRef={fieldRef}
+                error={fieldState.invalid}
+                placeholder="First Name"
+                variant="outlined"
+                fullWidth
+                autoComplete="off"
+                sx={textFieldStyle}
+              />
+              <FormHelperText id="first-name-helper-text">
+                {fieldState.invalid ? 'First name is required' : ''}
+              </FormHelperText>
+            </>
           )}
         />
       </Grid>
@@ -49,17 +79,26 @@ function TeamMemberInfo({
             field: { ref: fieldRef, value, ...fieldProps },
             fieldState,
           }) => (
-            <TextField
-              {...fieldProps}
-              value={value ?? ''}
-              inputRef={fieldRef}
-              helperText={fieldState.invalid ? 'Last name is required' : ''}
-              error={fieldState.invalid}
-              placeholder="Last Name"
-              variant="outlined"
-              fullWidth
-              autoComplete="off"
-            />
+            <>
+              <InputLabel htmlFor="last-name">Last Name</InputLabel>
+              <TextField
+                {...fieldProps}
+                id="last-name"
+                aria-describedby="last-name-helper-text"
+                value={value ?? ''}
+                inputRef={fieldRef}
+                error={fieldState.invalid}
+                title="last-name"
+                placeholder="Last Name"
+                variant="outlined"
+                fullWidth
+                autoComplete="off"
+                sx={textFieldStyle}
+              />
+              <FormHelperText id="last-name-helper-text">
+                {fieldState.invalid ? 'Last name is required' : ''}
+              </FormHelperText>
+            </>
           )}
         />
       </Grid>
@@ -76,21 +115,28 @@ function TeamMemberInfo({
             field: { ref: fieldRef, value, ...fieldProps },
             fieldState,
           }) => (
-            <TextField
-              {...fieldProps}
-              value={value ?? ''}
-              inputRef={fieldRef}
-              helperText={
-                fieldState.invalid
+            <>
+              <InputLabel htmlFor="email">Email</InputLabel>
+              <TextField
+                {...fieldProps}
+                id="email"
+                type="email"
+                aria-describedby="email-helper-text"
+                value={value ?? ''}
+                inputRef={fieldRef}
+                error={fieldState.invalid}
+                variant="outlined"
+                placeholder="member@team.com"
+                fullWidth
+                autoComplete="off"
+                sx={textFieldStyle}
+              />
+              <FormHelperText id="email-helper-text">
+                {fieldState.invalid
                   ? 'Email is should be in the form user@domain.com'
-                  : ''
-              }
-              error={fieldState.invalid}
-              variant="outlined"
-              placeholder="member@team.com"
-              fullWidth
-              autoComplete="off"
-            />
+                  : ''}
+              </FormHelperText>
+            </>
           )}
         />
       </Grid>
@@ -107,18 +153,26 @@ function TeamMemberInfo({
             field: { ref: fieldRef, value, ...fieldProps },
             fieldState,
           }) => (
-            <MuiTelInput
-              {...fieldProps}
-              value={value ?? ''}
-              inputRef={fieldRef}
-              helperText={fieldState.invalid ? 'Phone is invalid' : ''}
-              error={fieldState.invalid}
-              forceCallingCode
-              defaultCountry="US"
-              variant="outlined"
-              fullWidth
-              autoComplete="off"
-            />
+            <>
+              <InputLabel htmlFor="phone">Phone</InputLabel>
+              <MuiTelInput
+                {...fieldProps}
+                value={value ?? ''}
+                id="phone"
+                aria-describedby="phone-helper-text"
+                inputRef={fieldRef}
+                error={fieldState.invalid}
+                forceCallingCode
+                defaultCountry="US"
+                variant="outlined"
+                fullWidth
+                autoComplete="off"
+                sx={textFieldStyle}
+              />
+              <FormHelperText id="phone-helper-text">
+                {fieldState.invalid ? 'Phone is invalid' : ''}
+              </FormHelperText>
+            </>
           )}
         />
       </Grid>

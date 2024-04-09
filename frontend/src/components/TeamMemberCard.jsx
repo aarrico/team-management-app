@@ -47,7 +47,7 @@ function TeamMemberCard({
         }}
       >
         <Box sx={{ padding: '50' }}>
-          <Typography variant="h5" component="h2">
+          <Typography variant="h5" component="h3">
             <Box sx={{ fontWeight: 'bold' }}>{displayName}</Box>
           </Typography>
           <Typography color="textSecondary">{phone}</Typography>
