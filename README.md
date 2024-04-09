@@ -60,13 +60,14 @@ For Window's systems, use ctrl-c to stop each process in the powershell window.
 
 ## Running tests
 
-*** Unit tests are not complete in this project, I just did a sample of how to set them up for the backend.
+*** Unit tests are not complete in this project, I just did a sample of how to set them up.
 
-In a terminal from the project's root directory run:
+To run both backend and frontend tests, in a terminal from the project's root directory run:
 
 ```bash
 source run.sh --test
 ```
+
 
 ## Viewing API Documentation
 

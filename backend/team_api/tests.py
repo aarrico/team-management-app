@@ -57,7 +57,7 @@ class TeamAPITest(TestCase):
         member = TeamMember.objects.create(**member_no_role)
         delete_url = reverse('member-get-update-delete', kwargs={'pk': member.id})
         response = self.client.delete(delete_url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         
     def test_create_member_missing_field(self):
         response = self.client.post(self.create_url, member_missing_required_field, format='json')

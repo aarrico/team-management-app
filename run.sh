@@ -12,6 +12,8 @@ kill_port 3000
 
 if [ "$1" = "--test" ]; then
 (
+    echo "Testing backend..."
+    (
         cd backend
         
         if [ ! -d "venv" ]; then
@@ -24,6 +26,15 @@ if [ "$1" = "--test" ]; then
         pip install -r requirements.txt
 
         python manage.py test
+    )
+
+    echo "Testing frontend..."
+    (
+        cd frontend
+        npm install
+        CI=true 
+        npm run test-all
+    )
 )
 elif [ "$1" != "--stop" ]; then
 
