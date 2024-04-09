@@ -133,7 +133,7 @@ function TeamMemberInfo({
               />
               <FormHelperText id="email-helper-text">
                 {fieldState.invalid
-                  ? 'Email is should be in the form user@domain.com'
+                  ? 'Email should be in the form user@domain.com'
                   : ''}
               </FormHelperText>
             </>

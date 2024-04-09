@@ -89,12 +89,12 @@ function TeamMemberFormPage() {
           `Saved ${response.data.firstName} ${response.data.lastName} as a new team member!`
         );
       }
+
+      resetForm();
+      navigate('/');
     } catch (err) {
       handleError(err);
     }
-
-    resetForm();
-    navigate('/');
   }
 
   async function onDelete() {
