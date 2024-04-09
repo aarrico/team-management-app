@@ -75,16 +75,21 @@ function TeamMemberFormPage() {
 
   async function onSubmit(data) {
     try {
+      let cleanedData = { ...data };
+      if (data.phone) {
+        cleanedData = { ...cleanedData, phone: data.phone.replace(/\s/g, '') };
+      }
+
       if (teamMemberId) {
         const response = await axios.put(
           `${TEAM_API_URL}${teamMemberId}`,
-          data
+          cleanedData
         );
         toast.success(
           `${response.data.firstName} ${response.data.lastName}'s info updated!`
         );
       } else {
-        const response = await axios.post(`${TEAM_API_URL}`, data);
+        const response = await axios.post(`${TEAM_API_URL}`, cleanedData);
         toast.success(
           `Saved ${response.data.firstName} ${response.data.lastName} as a new team member!`
         );
