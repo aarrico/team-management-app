@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from django.utils import timezone
+from .validators import is_phone_valid
 
 
 class TeamMember(models.Model):
@@ -12,7 +13,7 @@ class TeamMember(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15, validators=[is_phone_valid])
     role = models.CharField(max_length=15,
                             choices=Role, default=Role.REGULAR)
     added_at = models.DateTimeField(default=timezone.now)
