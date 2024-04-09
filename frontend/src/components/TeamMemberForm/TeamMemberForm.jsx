@@ -7,7 +7,7 @@ function TeamMemberForm({
   formData,
   handleSubmit,
   onDelete,
-  clearForm,
+  resetForm,
   control,
 }) {
   const isEditMode = formData.id !== '';
@@ -21,7 +21,7 @@ function TeamMemberForm({
         </Grid>
 
         <Grid item xs={6} sx={{ textAlign: 'left' }}>
-          {!isEditMode && (
+          {isEditMode && (
             <Button
               variant="outlined"
               name="delete"
@@ -31,15 +31,14 @@ function TeamMemberForm({
               Delete
             </Button>
           )}
-          {isEditMode && (
-            <Button
-              variant="outlined"
-              name="reset-form-button"
-              onClick={clearForm}
-            >
-              Reset Form
-            </Button>
-          )}
+
+          <Button
+            variant="outlined"
+            name="reset-form-button"
+            onClick={() => resetForm(isEditMode)}
+          >
+            Reset Form
+          </Button>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: 'right' }}>
           <Button type="submit" name="save" variant="contained">

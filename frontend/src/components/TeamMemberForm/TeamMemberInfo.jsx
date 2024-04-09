@@ -168,6 +168,7 @@ function TeamMemberInfo({
                 fullWidth
                 autoComplete="off"
                 sx={textFieldStyle}
+                onlyCountries={['US']}
               />
               <FormHelperText id="phone-helper-text">
                 {fieldState.invalid ? 'Phone is invalid' : ''}

@@ -24,6 +24,7 @@ function TeamMemberFormPage() {
   const teamMemberId = id !== 'add' ? id : undefined;
 
   const [formData, setFormData] = useState({ ...emptyTeamMember });
+  const [orginialData, setOriginalData] = useState({ ...emptyTeamMember });
 
   const { control, reset, handleSubmit } = useForm({
     mode: 'onTouched',
@@ -35,10 +36,16 @@ function TeamMemberFormPage() {
     reset(data);
   }
 
-  function clearForm() {
-    const cleared = { ...emptyTeamMember };
-    setFormData(cleared);
-    reset(cleared);
+  function resetForm(restoreData = false) {
+    if (restoreData) {
+      const data = { ...orginialData };
+      setFormData(data);
+      reset(data);
+    } else {
+      const cleared = { ...emptyTeamMember };
+      setFormData(cleared);
+      reset(cleared);
+    }
   }
 
   function handleError(err) {
@@ -55,6 +62,7 @@ function TeamMemberFormPage() {
       try {
         const response = await axios.get(`${TEAM_API_URL}${teamMemberId}`);
         updateForm({ ...response.data });
+        setOriginalData({ ...response.data });
       } catch (err) {
         handleError(err);
         navigate('/');
@@ -85,7 +93,7 @@ function TeamMemberFormPage() {
       handleError(err);
     }
 
-    clearForm();
+    resetForm();
     navigate('/');
   }
 
@@ -93,7 +101,7 @@ function TeamMemberFormPage() {
     try {
       const response = await axios.delete(`${TEAM_API_URL}${teamMemberId}`);
       toast.success(`${response.data.message}`);
-      clearForm();
+      resetForm();
       navigate('/');
     } catch (err) {
       handleError(err);
@@ -102,14 +110,14 @@ function TeamMemberFormPage() {
 
   return (
     <Container>
-      <TeamMemberFormHeader isEdit={teamMemberId} clearForm={clearForm} />
+      <TeamMemberFormHeader isEdit={teamMemberId} clearForm={resetForm} />
       <Divider />
       <TeamMemberForm
         formData={formData}
         control={control}
         handleSubmit={handleSubmit(onSubmit)}
         onDelete={onDelete}
-        clearForm={clearForm}
+        resetForm={resetForm}
       />
     </Container>
   );
