@@ -18,12 +18,12 @@ class TeamMemberGetUpdateDelete(RetrieveUpdateDestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         if not request.user.is_anonymous and request.user.role != TeamMember.Role.ADMIN:
-            return Response({'error': 'only admins can perform this operation'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': ['only admins can perform this operation']}, status=status.HTTP_401_UNAUTHORIZED)
 
         instance = self.get_object()
 
         if instance.role == TeamMember.Role.ADMIN and TeamMember.objects.filter(role=TeamMember.Role.ADMIN).count() == 1:
-            return Response({'error': 'must have at least one admin user'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': ['must have at least one admin user']}, status=status.HTTP_400_BAD_REQUEST)
 
         instance.deleted_at = timezone.now()
         instance.save()

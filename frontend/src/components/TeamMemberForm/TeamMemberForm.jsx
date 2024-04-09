@@ -7,14 +7,14 @@ import { toast } from 'react-toastify';
 
 import TeamMemberRoleSelection from './TeamMemberRoleSelection';
 import TeamMemberInfo from './TeamMemberInfo';
-import { TEAM_API_URL } from '../../utils';
+import { decodeBackendError, TEAM_API_URL } from '../../utils';
 
 const emptyTeamMember = {
   firstName: '',
   lastName: '',
   email: '',
   phone: '',
-  role: 'REGULAR',
+  role: 'regular',
 };
 
 function TeamMemberForm({ teamMemberId }) {
@@ -36,22 +36,22 @@ function TeamMemberForm({ teamMemberId }) {
     reset(cleared);
   }
 
+  function handleError(err) {
+    let toastMsg = err.message;
+    if (err.response || err.request) {
+      toastMsg = decodeBackendError(err.response || err.request, toast.error);
+    }
+
+    toast.error(toastMsg);
+  }
+
   useEffect(() => {
     async function fetchEditData() {
       try {
         const response = await axios.get(`${TEAM_API_URL}${teamMemberId}`);
         updateForm({ ...response.data });
       } catch (err) {
-        if (err.response && err.response.status) {
-          if (err.response.status === 404) {
-            toast.error(`Team member with given ID does not exist!`);
-          } else if (err.response.status === 500) {
-            toast.error('There was a problem connecting to the server.');
-          } else {
-            toast.error(`Error fetching team member: ${err}`);
-          }
-        }
-
+        handleError(err);
         navigate('/');
       }
     }
@@ -77,13 +77,7 @@ function TeamMemberForm({ teamMemberId }) {
         );
       }
     } catch (err) {
-      if (err.response.status === 500) {
-        toast.error('There was a problem connecting to the server.');
-      } else {
-        toast.error(
-          `Error ${teamMemberId ? 'updating' : 'adding'} team member: ${err}`
-        );
-      }
+      handleError(err);
     }
 
     clearForm();
@@ -92,21 +86,13 @@ function TeamMemberForm({ teamMemberId }) {
 
   async function onDelete() {
     try {
-      await axios.delete(`${TEAM_API_URL}${teamMemberId}`);
-      toast.success(`Team memeber was removed successfully.`);
+      const response = await axios.delete(`${TEAM_API_URL}${teamMemberId}`);
+      toast.success(`${response.data.message}`);
+      clearForm();
+      navigate('/');
     } catch (err) {
-      if (err.response.status === 404) {
-        toast.error(`Team member with given ID does not exist!`);
-      } else if (err.response.status === 500) {
-        toast.error('There was a problem connecting to the server.');
-      } else {
-        toast.error(`Error deleting
-         team member: ${err}`);
-      }
+      handleError(err);
     }
-
-    clearForm();
-    navigate('/');
   }
 
   return (
