@@ -21,6 +21,7 @@ function TeamMemberForm({ teamMemberId }) {
   const [formData, setFormData] = useState({ ...emptyTeamMember });
 
   const { control, reset, handleSubmit } = useForm({
+    mode: 'onTouched',
     defaultValues: formData,
   });
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ function TeamMemberForm({ teamMemberId }) {
           <TeamMemberRoleSelection control={control} role={formData.role} />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={6} sx={{ textAlign: 'left' }}>
           {teamMemberId && (
             <Button
               variant="outlined"
@@ -113,6 +114,15 @@ function TeamMemberForm({ teamMemberId }) {
               sx={{ color: 'red', borderColor: '#dcdcdc' }}
             >
               Delete
+            </Button>
+          )}
+          {!teamMemberId && (
+            <Button
+              variant="outlined"
+              name="reset-form-button"
+              onClick={clearForm}
+            >
+              Reset Form
             </Button>
           )}
         </Grid>
